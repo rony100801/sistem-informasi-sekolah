@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "config/database.php";
 ?>
 <!doctype html>
@@ -47,65 +48,70 @@ require_once "config/database.php";
         <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "kelas") ? "text-primary" : "text-dark" ?>" href="?page=kelas">Kelas</a>
         <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "waktu") ? "text-primary" : "text-dark" ?>" href="?page=waktu">Waktu</a>
       </nav>
-      <a class="btn btn-outline-primary" href="#">Sign up</a>
+      <a class="btn btn-outline-danger" href="logout.php">Logout</a>
     </div>
   </div>
 
   <div class="container-fluid">
     <?php
-    if (empty($_GET['page'])) {
-      include "home.php";
-      // SISWA
-    } elseif ($_GET['page'] == 'siswa') {
-      include "siswa.php";
-    } elseif ($_GET['page'] == "siswaTambah") {
-      include "siswa_form_tambah.php";
-    } elseif ($_GET['page'] == "siswaUbah") {
-      include "siswa_form_ubah.php";
-    }
-    // GURU
-    elseif ($_GET['page'] == 'guru') {
-      include "guru.php";
-    } elseif ($_GET['page'] == "guruTambah") {
-      include "guru_form_tambah.php";
-    } elseif ($_GET['page'] == "guruUbah") {
-      include "guru_form_ubah.php";
-    }
-    // MAPEL
-    elseif ($_GET['page'] == 'mapel') {
-      include "mapel.php";
-    } elseif ($_GET['page'] == "mapelTambah") {
-      include "mapel_form_tambah.php";
-    } elseif ($_GET['page'] == "mapelUbah") {
-      include "mapel_form_ubah.php";
-    }
-    // JURUSAN
-    elseif ($_GET['page'] == 'jurusan') {
-      include "jurusan.php";
-    } elseif ($_GET['page'] == "jurusanTambah") {
-      include "jurusan_form_tambah.php";
-    } elseif ($_GET['page'] == "jurusanUbah") {
-      include "jurusan_form_ubah.php";
-    }
-    // KELAS
-    elseif ($_GET['page'] == 'kelas') {
-      include "kelas.php";
-    } elseif ($_GET['page'] == "kelasTambah") {
-      include "kelas_form_tambah.php";
-    } elseif ($_GET['page'] == "kelasUbah") {
-      include "kelas_form_ubah.php";
-    }
-    // WAKTU
-    elseif ($_GET['page'] == 'waktu') {
-      include "waktu.php";
-    } elseif ($_GET['page'] == "waktuTambah") {
-      include "waktu_form_tambah.php";
-    } elseif ($_GET['page'] == "waktuUbah") {
-      include "waktu_form_ubah.php";
-    }
-    // JIKA TIDAK ADA
-    else {
-      include "not_found.php";
+    if (!isset($_SESSION["login"])) {
+      header("Location: login.php");
+      exit;
+    } else {
+      if (empty($_GET['page'])) {
+        include "home.php";
+        // SISWA
+      } elseif ($_GET['page'] == 'siswa') {
+        include "siswa.php";
+      } elseif ($_GET['page'] == "siswaTambah") {
+        include "siswa_form_tambah.php";
+      } elseif ($_GET['page'] == "siswaUbah") {
+        include "siswa_form_ubah.php";
+      }
+      // GURU
+      elseif ($_GET['page'] == 'guru') {
+        include "guru.php";
+      } elseif ($_GET['page'] == "guruTambah") {
+        include "guru_form_tambah.php";
+      } elseif ($_GET['page'] == "guruUbah") {
+        include "guru_form_ubah.php";
+      }
+      // MAPEL
+      elseif ($_GET['page'] == 'mapel') {
+        include "mapel.php";
+      } elseif ($_GET['page'] == "mapelTambah") {
+        include "mapel_form_tambah.php";
+      } elseif ($_GET['page'] == "mapelUbah") {
+        include "mapel_form_ubah.php";
+      }
+      // JURUSAN
+      elseif ($_GET['page'] == 'jurusan') {
+        include "jurusan.php";
+      } elseif ($_GET['page'] == "jurusanTambah") {
+        include "jurusan_form_tambah.php";
+      } elseif ($_GET['page'] == "jurusanUbah") {
+        include "jurusan_form_ubah.php";
+      }
+      // KELAS
+      elseif ($_GET['page'] == 'kelas') {
+        include "kelas.php";
+      } elseif ($_GET['page'] == "kelasTambah") {
+        include "kelas_form_tambah.php";
+      } elseif ($_GET['page'] == "kelasUbah") {
+        include "kelas_form_ubah.php";
+      }
+      // WAKTU
+      elseif ($_GET['page'] == 'waktu') {
+        include "waktu.php";
+      } elseif ($_GET['page'] == "waktuTambah") {
+        include "waktu_form_tambah.php";
+      } elseif ($_GET['page'] == "waktuUbah") {
+        include "waktu_form_ubah.php";
+      }
+      // JIKA TIDAK ADA
+      else {
+        include "not_found.php";
+      }
     }
     ?>
     <div class="container-fluid">

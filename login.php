@@ -7,14 +7,21 @@ if (isset($_SESSION["login"])) {
 }
 if (isset($_POST["login"])) {
   $username = $_POST["username"];
-  $password = $_POST["password"];
+  $password = md5($_POST["password"]);
 
-  $row = mysqli_query($db, "SELECT * FROM user WHERE username = '$username' AND password = '$password'");
+  $row = mysqli_query($db, "SELECT * FROM tbl_admin WHERE username = '$username' AND password = '$password'");
+  // var_dump($row);
+  $data = mysqli_fetch_assoc($row);
   if (mysqli_num_rows($row) > 0) {
+    $_SESSION["level"] = $data["level"];
+    $_SESSION["username"] = $data["username"];
     $_SESSION["login"] = true;
+    $_SESSION["swal"] = true;
     header("Location: index.php");
     exit;
   }
+
+  $error = true;
 }
 ?>
 <!doctype html>
@@ -52,7 +59,17 @@ if (isset($_POST["login"])) {
 
 <body>
 
-  <div class="container">
+  <?php if (isset($error)) : ?>
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Username / Password Salah!'
+      })
+    </script>
+  <?php endif; ?>
+
+  <div class="container pt-5">
     <div class="row mt-5">
       <div class="col text-center">
         <h1>Silahkan Login</h1>
@@ -60,20 +77,26 @@ if (isset($_POST["login"])) {
     </div>
     <form action="" method="post">
       <div class="row justify-content-center mt-4">
-        <div class="col-md-4">
-          <label for="username">Username</label>
-          <input type="text" name="username" id="username" class="form-control">
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-md-4">
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" class="form-control">
-        </div>
-      </div>
-      <div class="row justify-content-center mt-4">
-        <div class="col-md-4">
-          <button type="submit" name="login" class="btn btn-success">Login</button>
+        <div class="col-md-5">
+          <div class="card py-3 shadow">
+            <div class="row justify-content-center mt-4">
+              <div class="col-md-7">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-control">
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-7">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control">
+              </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+              <div class="col-md-7">
+                <button type="submit" name="login" class="btn btn-success">Login</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </form>

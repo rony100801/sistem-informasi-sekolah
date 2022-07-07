@@ -1,6 +1,10 @@
 <?php
 session_start();
 require_once "config/database.php";
+if (!isset($_SESSION["login"])) {
+  header("Location: login.php");
+  exit;
+}
 ?>
 <!doctype html>
 <!-- HTML 5 Tag -->
@@ -36,6 +40,29 @@ require_once "config/database.php";
 </head>
 
 <body>
+
+  <?php if (isset($_SESSION["swal"])) : ?>
+    <script>
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Signed in successfully'
+      })
+    </script>
+    <?php unset($_SESSION["swal"]); ?>
+  <?php endif; ?>
+
   <div class="container-fluid">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal"><i class="fas fa-ethernet title-icon"></i> Sistem Informasi Sekolah (SIS)</h5>
@@ -47,8 +74,9 @@ require_once "config/database.php";
         <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "jurusan") ? "text-primary" : "text-dark" ?>" href="?page=jurusan">Jurusan</a>
         <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "kelas") ? "text-primary" : "text-dark" ?>" href="?page=kelas">Kelas</a>
         <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "waktu") ? "text-primary" : "text-dark" ?>" href="?page=waktu">Waktu</a>
+        <a class="btn btn-outline-info" href="#">Sign Up</a>
+        <a class="btn btn-outline-danger" href="logout.php">Logout</a>
       </nav>
-      <a class="btn btn-outline-danger" href="logout.php">Logout</a>
     </div>
   </div>
 

@@ -1,5 +1,10 @@
 <?php
+session_start();
 require_once "config/database.php";
+if (!isset($_SESSION["login"])) {
+  header("Location: login.php");
+  exit;
+}
 ?>
 <!doctype html>
 <!-- HTML 5 Tag -->
@@ -35,6 +40,29 @@ require_once "config/database.php";
 </head>
 
 <body>
+
+  <?php if (isset($_SESSION["swal"])) : ?>
+    <script>
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Signed in successfully'
+      })
+    </script>
+    <?php unset($_SESSION["swal"]); ?>
+  <?php endif; ?>
+
   <div class="container-fluid">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal"><i class="fas fa-ethernet title-icon"></i> Sistem Informasi Sekolah (SIS)</h5>
@@ -46,66 +74,72 @@ require_once "config/database.php";
         <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "jurusan") ? "text-primary" : "text-dark" ?>" href="?page=jurusan">Jurusan</a>
         <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "kelas") ? "text-primary" : "text-dark" ?>" href="?page=kelas">Kelas</a>
         <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "waktu") ? "text-primary" : "text-dark" ?>" href="?page=waktu">Waktu</a>
+        <a class="btn btn-outline-info" href="#">Sign Up</a>
+        <a class="btn btn-outline-danger" href="logout.php">Logout</a>
       </nav>
-      <a class="btn btn-outline-primary" href="#">Sign up</a>
     </div>
   </div>
 
   <div class="container-fluid">
     <?php
-    if (empty($_GET['page'])) {
-      include "home.php";
-      // SISWA
-    } elseif ($_GET['page'] == 'siswa') {
-      include "siswa.php";
-    } elseif ($_GET['page'] == "siswaTambah") {
-      include "siswa_form_tambah.php";
-    } elseif ($_GET['page'] == "siswaUbah") {
-      include "siswa_form_ubah.php";
-    }
-    // GURU
-    elseif ($_GET['page'] == 'guru') {
-      include "guru.php";
-    } elseif ($_GET['page'] == "guruTambah") {
-      include "guru_form_tambah.php";
-    } elseif ($_GET['page'] == "guruUbah") {
-      include "guru_form_ubah.php";
-    }
-    // MAPEL
-    elseif ($_GET['page'] == 'mapel') {
-      include "mapel.php";
-    } elseif ($_GET['page'] == "mapelTambah") {
-      include "mapel_form_tambah.php";
-    } elseif ($_GET['page'] == "mapelUbah") {
-      include "mapel_form_ubah.php";
-    }
-    // JURUSAN
-    elseif ($_GET['page'] == 'jurusan') {
-      include "jurusan.php";
-    } elseif ($_GET['page'] == "jurusanTambah") {
-      include "jurusan_form_tambah.php";
-    } elseif ($_GET['page'] == "jurusanUbah") {
-      include "jurusan_form_ubah.php";
-    }
-    // KELAS
-    elseif ($_GET['page'] == 'kelas') {
-      include "kelas.php";
-    } elseif ($_GET['page'] == "kelasTambah") {
-      include "kelas_form_tambah.php";
-    } elseif ($_GET['page'] == "kelasUbah") {
-      include "kelas_form_ubah.php";
-    }
-    // WAKTU
-    elseif ($_GET['page'] == 'waktu') {
-      include "waktu.php";
-    } elseif ($_GET['page'] == "waktuTambah") {
-      include "waktu_form_tambah.php";
-    } elseif ($_GET['page'] == "waktuUbah") {
-      include "waktu_form_ubah.php";
-    }
-    // JIKA TIDAK ADA
-    else {
-      include "not_found.php";
+    if (!isset($_SESSION["login"])) {
+      header("Location: login.php");
+      exit;
+    } else {
+      if (empty($_GET['page'])) {
+        include "home.php";
+        // SISWA
+      } elseif ($_GET['page'] == 'siswa') {
+        include "siswa.php";
+      } elseif ($_GET['page'] == "siswaTambah") {
+        include "siswa_form_tambah.php";
+      } elseif ($_GET['page'] == "siswaUbah") {
+        include "siswa_form_ubah.php";
+      }
+      // GURU
+      elseif ($_GET['page'] == 'guru') {
+        include "guru.php";
+      } elseif ($_GET['page'] == "guruTambah") {
+        include "guru_form_tambah.php";
+      } elseif ($_GET['page'] == "guruUbah") {
+        include "guru_form_ubah.php";
+      }
+      // MAPEL
+      elseif ($_GET['page'] == 'mapel') {
+        include "mapel.php";
+      } elseif ($_GET['page'] == "mapelTambah") {
+        include "mapel_form_tambah.php";
+      } elseif ($_GET['page'] == "mapelUbah") {
+        include "mapel_form_ubah.php";
+      }
+      // JURUSAN
+      elseif ($_GET['page'] == 'jurusan') {
+        include "jurusan.php";
+      } elseif ($_GET['page'] == "jurusanTambah") {
+        include "jurusan_form_tambah.php";
+      } elseif ($_GET['page'] == "jurusanUbah") {
+        include "jurusan_form_ubah.php";
+      }
+      // KELAS
+      elseif ($_GET['page'] == 'kelas') {
+        include "kelas.php";
+      } elseif ($_GET['page'] == "kelasTambah") {
+        include "kelas_form_tambah.php";
+      } elseif ($_GET['page'] == "kelasUbah") {
+        include "kelas_form_ubah.php";
+      }
+      // WAKTU
+      elseif ($_GET['page'] == 'waktu') {
+        include "waktu.php";
+      } elseif ($_GET['page'] == "waktuTambah") {
+        include "waktu_form_tambah.php";
+      } elseif ($_GET['page'] == "waktuUbah") {
+        include "waktu_form_ubah.php";
+      }
+      // JIKA TIDAK ADA
+      else {
+        include "not_found.php";
+      }
     }
     ?>
     <div class="container-fluid">

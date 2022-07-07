@@ -146,7 +146,8 @@ else {
 
             <td width="120" class="center">
               <a title="Ubah" class="btn btn-outline-info" href="?page=waktuUbah&id_waktu=<?= $data['id_waktu']; ?>"><i class="fas fa-edit"></i></a>
-              <a title="Hapus" class="btn btn-outline-danger" href="waktu_proses_hapus.php?id_waktu=<?= $data['id_waktu']; ?>" onclick="return confirm('Anda yakin ingin menghapus waktu <?= $data['hari']; ?>?');"><i class="fas fa-trash"></i></a>
+              <a title="Hapus" class="btn btn-outline-danger
+              " href="waktu_proses_hapus.php?id_waktu=<?= $data['id_waktu']; ?>" onclick="return confirm('Anda yakin ingin menghapus waktu <?= $data['hari']; ?>?');"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php

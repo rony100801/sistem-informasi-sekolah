@@ -66,17 +66,39 @@ if (!isset($_SESSION["login"])) {
   <div class="container-fluid">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal"><i class="fas fa-ethernet title-icon"></i> Sistem Informasi Sekolah (SIS)</h5>
-      <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 <?= (empty($_GET["page"])) ? "text-primary" : "text-dark" ?>" href="./">Home</a>
-        <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "siswa") ? "text-primary" : "text-dark" ?>" href="?page=siswa">Siswa</a>
-        <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "guru") ? "text-primary" : "text-dark" ?>" href="?page=guru">Guru</a>
-        <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "mapel") ? "text-primary" : "text-dark" ?>" href="?page=mapel">Matapelajaran</a>
-        <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "jurusan") ? "text-primary" : "text-dark" ?>" href="?page=jurusan">Jurusan</a>
-        <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "kelas") ? "text-primary" : "text-dark" ?>" href="?page=kelas">Kelas</a>
-        <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "waktu") ? "text-primary" : "text-dark" ?>" href="?page=waktu">Waktu</a>
-        <a class="btn btn-outline-info" href="#">Sign Up</a>
-        <a class="btn btn-outline-danger" href="logout.php">Logout</a>
-      </nav>
+      <?php if ($_SESSION["level"] === "Admin") : ?>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 <?= (empty($_GET["page"])) ? "text-primary" : "text-dark" ?>" href="./">Home</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "siswa") ? "text-primary" : "text-dark" ?>" href="?page=siswa">Siswa</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "guru") ? "text-primary" : "text-dark" ?>" href="?page=guru">Guru</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "mapel") ? "text-primary" : "text-dark" ?>" href="?page=mapel">Matapelajaran</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "jurusan") ? "text-primary" : "text-dark" ?>" href="?page=jurusan">Jurusan</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "kelas") ? "text-primary" : "text-dark" ?>" href="?page=kelas">Kelas</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "waktu") ? "text-primary" : "text-dark" ?>" href="?page=waktu">Waktu</a>
+          <a class="btn btn-outline-info" href="#">Sign Up</a>
+          <a class="btn btn-outline-danger" href="logout.php">Logout</a>
+        </nav>
+      <?php elseif ($_SESSION["level"] === "Guru") : ?>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 <?= (empty($_GET["page"])) ? "text-primary" : "text-dark" ?>" href="./">Home</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "siswa") ? "text-primary" : "text-dark" ?>" href="?page=siswa">Siswa</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "guru") ? "text-primary" : "text-dark" ?>" href="?page=guru">Guru</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "mapel") ? "text-primary" : "text-dark" ?>" href="?page=mapel">Matapelajaran</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "jurusan") ? "text-primary" : "text-dark" ?>" href="?page=jurusan">Jurusan</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "kelas") ? "text-primary" : "text-dark" ?>" href="?page=kelas">Kelas</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "waktu") ? "text-primary" : "text-dark" ?>" href="?page=waktu">Waktu</a>
+          <a class="btn btn-outline-info" href="#">Sign Up</a>
+          <a class="btn btn-outline-danger" href="logout.php">Logout</a>
+        </nav>
+      <?php else : ?>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 <?= (empty($_GET["page"])) ? "text-primary" : "text-dark" ?>" href="./">Home</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "mapel") ? "text-primary" : "text-dark" ?>" href="?page=mapel">Matapelajaran</a>
+          <a class="p-2 <?= (isset($_GET["page"]) && $_GET["page"] === "kelas") ? "text-primary" : "text-dark" ?>" href="?page=kelas">Kelas</a>
+          <a class="btn btn-outline-info" href="#">Sign Up</a>
+          <a class="btn btn-outline-danger" href="logout.php">Logout</a>
+        </nav>
+      <?php endif; ?>
     </div>
   </div>
 
